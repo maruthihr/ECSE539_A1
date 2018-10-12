@@ -5,7 +5,7 @@ import java.awt.EventQueue;
 
 import ca.mcgill.ecse.pds.model.PDS;
 import ca.mcgill.ecse.pds.persistence.PersistenceObjectStream;
-import ca.mcgill.ecse.pds.view.PDSPage1;
+import ca.mcgill.ecse.pds.view.PDSPage;
 import ca.mcgill.ecse.pds.model.Menu;
 
 public class PdsApplication {
@@ -18,7 +18,7 @@ public class PdsApplication {
 		// start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-               new PDSPage1().frmPds.setVisible(true);
+               new PDSPage().frmPds.setVisible(true);
             }
         });
         
@@ -28,6 +28,7 @@ public class PdsApplication {
 	public static PDS getPds() {
 		if (pds == null) {
 			// load model
+			System.out.println("getPds: loading");
 			pds = load();
 		}
  		return pds;

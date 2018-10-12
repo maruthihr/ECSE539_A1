@@ -446,7 +446,7 @@ public class StandardPizza extends Pizza implements Serializable
             "  " + "menu = "+(getMenu()!=null?Integer.toHexString(System.identityHashCode(getMenu())):"null");
   }
   
-  public static void reinitializeAutouniqueID(List<StandardPizza> standardPizzas) {
+  public static void reinitializeUniquePizzaNames(List<StandardPizza> standardPizzas) {
 	    standardpizzasByName = new HashMap<String, StandardPizza>();
 	    for (StandardPizza standardPizza : standardPizzas) {
 	      standardpizzasByName.put(standardPizza.getName(), standardPizza);

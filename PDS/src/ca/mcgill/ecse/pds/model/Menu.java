@@ -206,7 +206,7 @@ public class Menu  implements Serializable
   }
   
   public void reinitialize() {
-	    StandardPizza.reinitializeAutouniqueID(this.getStandardPizzas());
+	    StandardPizza.reinitializeUniquePizzaNames(this.getStandardPizzas());
 	  }
   
   private static final long serialVersionUID = -2315072607928790501L;

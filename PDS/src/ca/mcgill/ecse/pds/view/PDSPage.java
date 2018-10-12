@@ -97,6 +97,11 @@ public class PDSPage {
 		});
 		
 		JButton btnUpdate = new JButton("Update");
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updatePizzaButtonActionPerformed(e);
+			}
+		});
 		
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
@@ -210,6 +215,24 @@ public class PDSPage {
 			try {
 					PdsController.deleteStandardPizza(sp);
 					updateMenu();
+			} catch (InvalidInputException e) {
+				error = e.getMessage();
+			}
+			
+			// update visuals
+			refreshData();
+		
+	}
+	
+	
+	private void updatePizzaButtonActionPerformed(ActionEvent evt) {
+		// clear error message
+			error = null;
+			
+			// call the controller createStandardPizza(String name, int price, int calorieCount) 
+			try {
+				PdsController.updateStandardPizza(txtName.getText(), Integer.parseInt(txtPrice.getText()), Integer.parseInt(textCalorieCount.getText()));
+				updateMenu();
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}

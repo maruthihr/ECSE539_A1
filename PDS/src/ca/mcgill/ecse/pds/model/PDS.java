@@ -745,7 +745,7 @@ public class PDS implements Serializable
   }
   
   public void reinitialize() {
-	    StandardPizza.reinitializeAutouniqueID(this.getStandardPizzas());
+	    StandardPizza.reinitializeUniquePizzaNames(this.getStandardPizzas());
 	  }
 
   // line 18 "../../../../../PDS.ump"
