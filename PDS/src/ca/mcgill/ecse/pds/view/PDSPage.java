@@ -28,7 +28,7 @@ import javax.swing.table.DefaultTableModel;
 
 
 
-public class PDSPage1 {
+public class PDSPage {
 
 	public JFrame frmPds;
 	private JTextField txtName;
@@ -59,7 +59,7 @@ public class PDSPage1 {
 	 * Create the application.
 	 *//*/
 	 */
-	public PDSPage1() {
+	public PDSPage() {
 		initialize();
 	}
 
@@ -99,6 +99,11 @@ public class PDSPage1 {
 		JButton btnUpdate = new JButton("Update");
 		
 		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deletePizzaButtonActionPerformed(e);
+			}
+		});
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(frmPds.getContentPane());
@@ -185,7 +190,26 @@ public class PDSPage1 {
 			// call the controller createStandardPizza(String name, int price, int calorieCount) 
 			try {
 				StandardPizza sp = PdsController.createStandardPizza(txtName.getText(), Integer.parseInt(txtPrice.getText()), Integer.parseInt(textCalorieCount.getText()));
-				updateMenu(sp);
+				updateMenu();
+			} catch (InvalidInputException e) {
+				error = e.getMessage();
+			}
+			
+			// update visuals
+			refreshData();
+		
+	}
+	
+	
+	
+	private void deletePizzaButtonActionPerformed(ActionEvent evt) {
+		// clear error message
+			error = null;
+			StandardPizza sp = StandardPizza.getWithName(txtName.getText());
+			// call the controller createStandardPizza(String name, int price, int calorieCount) 
+			try {
+					PdsController.deleteStandardPizza(sp);
+					updateMenu();
 			} catch (InvalidInputException e) {
 				error = e.getMessage();
 			}
@@ -203,10 +227,22 @@ public class PDSPage1 {
 		
 	}
 	
-	private void updateMenu(StandardPizza standardPizza)
+	private void updateMenu()
 	{
+		
 		DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
-		Object[] obj = {standardPizza.getName(), standardPizza.getPrice(), standardPizza.getCalorieCount()};
-		model.addRow(obj);
+		
+		model.setRowCount(0);
+
+		
+		// To Update the menu with the current list of pizzas
+		// Get the current list of pizzas
+		for(StandardPizza standardPizza : PdsController.getStandardPizzasOnMenu())
+		{
+			Object[] obj = {standardPizza.getName(), standardPizza.getPrice(), standardPizza.getCalorieCount()};
+			model.addRow(obj);
+		}
+		
+		
 	}
 }
