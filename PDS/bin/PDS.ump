@@ -1,0 +1,114 @@
+namespace ca.mcgill.ecse.pds.model;
+
+use PDSPersistence.ump;
+use PDSStates.ump;
+
+
+class PDS
+{
+  1 <@>- * Base;
+  1 <@>- * Topping;
+  1 <@>- * Order;
+  1 <@>- * Customer;
+  1 <@>- 0..1 Menu;
+  1 <@>- * StandardPizza;
+  1 <@>- * CustomPizza;
+  
+  public java.util.Date getCurrentDate() {
+    java.util.Calendar cal = java.util.Calendar.getInstance();
+    cal.set(Calendar.HOUR_OF_DAY, 0);
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0);
+    java.util.Date date = cal.getTime();
+    return date;
+  }
+}
+
+class Pizza
+{
+  Double price;
+  
+  before constructor, setPrice {
+    if (aPrice <= 0) {
+	  throw new RuntimeException("The price of a Pizza cannot be empty.");
+	}
+  }
+  const Integer Size = 12;
+  }
+
+class CustomPizza
+{
+  isA Pizza;
+  * -- * Topping;
+}
+
+class StandardPizza
+{
+ Integer calorieCount;
+ unique String name;
+ isA Pizza;
+ 
+ before constructor, setName {
+    if (aName == null || aName.length() == 0) {
+	  throw new RuntimeException("The name of a Pizza cannot be empty.");
+	}
+  }
+  
+  before constructor, setCalorieCount {
+    if (aCalorieCount <= 0) {
+	  throw new RuntimeException("The calorieCount of a Pizza cannot be empty.");
+	}
+  }
+  * -- * Topping;
+}
+
+class Base
+{
+  String name;
+ 
+}
+
+class Topping
+{
+  Double toppingPrice;
+  enum ToppingName {Onion, Mushroom, Capsicum, GreenPepper, RedPepper}
+  ToppingName toppingName;
+ 
+}
+
+class Menu
+{
+  1 -- 1..* StandardPizza;
+}
+
+class Order
+{
+ autounique orderNumber;
+ Integer numberOfItems;
+ Double totalPrice;
+ Date date;
+}
+
+class Customer
+{
+ String name;
+ String emailAddress;
+ String phoneNumber;
+ String deliveryAddress;
+1 -- * Order;
+}
+
+associationClass OrderDetail
+{
+  Integer quantity;
+   * Pizza;
+   * Order;
+}
+
+class Customization
+{
+  1 -- * Topping;
+  * -- * StandardPizza;
+  * -- 1 Order;
+}
